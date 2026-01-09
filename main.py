@@ -130,16 +130,16 @@ class Main:
     def __init__(self):
         self._ghapi = GihubWrapper(gh_token=GH_TOKEN, repo_name=REPO_NAME)
 
-    async def main_func(self, url: str, number: int, info: None | dict, urls_dict):
-        new_info = await DownloadAndSave(url=url, number=number, info=info, ghapi=self._ghapi).download_and_save()
+    async def run_download(self, url: str, _id: int, info: None | dict, urls_dict):
+        new_info = await DownloadAndSave(url=url, number=_id + 1, info=info, ghapi=self._ghapi).download_and_save()
         urls_dict[url] = new_info
-        self.MARKDOWN_LIST[number - 1] = new_info
+        self.MARKDOWN_LIST[_id] = new_info
 
     async def gather_coros(self, urls, urls_dict):
         await asyncio.gather(
             *[
-                self.main_func(url=url, number=i + 1, info=urls_dict.get(url), urls_dict=urls_dict)
-                for i, url in enumerate(urls)
+                self.run_download(url=url, _id=_id, info=urls_dict.get(url), urls_dict=urls_dict)
+                for _id, url in enumerate(urls)
             ]
         )
 
