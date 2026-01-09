@@ -1,18 +1,18 @@
 import asyncio
-
-from http import HTTPMethod
+import hashlib
+import json
 import logging
 import os
-from py_markdown_table.markdown_table import markdown_table
-from datetime import datetime
 import urllib
 import zoneinfo
-import json
-import hashlib
+from datetime import datetime
+from http import HTTPMethod
+
 import aiofiles
 import aiohttp
-from ghwrapper import GihubWrapper
+from py_markdown_table.markdown_table import markdown_table
 
+from ghwrapper import GihubWrapper
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -96,10 +96,6 @@ class DownloadAndSave:  # TODO to rename and remove
 
         try:
             if not (await self.is_equal_urls_config(data)):
-                # async with aiofiles.open(self._cfg_file_path, "w+", encoding="utf-8") as file:
-                # await file.write(data)
-                # logger.info(f"📁 {self._number} | Данные сохранены локально в {self._cfg_file_path}")
-
                 await self._ghapi.update_or_create_file(
                     self._cfg_file_path,
                     msg=f"🚀 Обновление {self._cfg_file_path}",
@@ -160,22 +156,14 @@ class Main:
         except:
             urls_dict = {}
 
-        # Если поменялся список урлов в txt файле, то создаем json заново
         if len(urls) != len(urls_dict):
             urls_dict = {}
-        # TODO удалять целиком дериктори миррор
 
         self.MARKDOWN_LIST = [0] * len(urls)
 
         await self.gather_coros(urls, urls_dict)
 
         markdown = markdown_table(self.MARKDOWN_LIST).set_params(row_sep="markdown", quote=False).get_markdown()
-
-        # with open("README.md", "w+") as md_file:
-        #     md_file.write(markdown)
-
-        # with open("urls.json", "w+") as urls_json:
-        #     json.dump(urls_dict, urls_json)
 
         await self._ghapi.update_or_create_file(
             file_path="README.md",

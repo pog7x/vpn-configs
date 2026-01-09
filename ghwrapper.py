@@ -1,11 +1,9 @@
-from github import Github, Auth, GithubException  # TODO начать использовать https://github.com/ludeeus/aiogithubapi
 import logging
+
+from github import Auth, Github, GithubException
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-CONFIGS_DIRECTORY = "githubmirror"
-CONFIG_FILE_PATH = f"{CONFIGS_DIRECTORY}/%d.txt"
 
 
 class GihubWrapper:
@@ -13,16 +11,6 @@ class GihubWrapper:
         self._gh = Github(auth=Auth.Token(gh_token))
         self._repo_name = repo_name
         self._repo = self._gh.get_repo(self._repo_name)
-
-    async def get_rate_limit(self):
-        try:
-            remaining, limit = self._gh.rate_limiting
-            if remaining < 100:
-                logger.info(f"⚠️ Внимание: осталось {remaining}/{limit} запросов к GitHub API")
-            else:
-                logger.info(f"ℹ️ Доступно запросов к GitHub API: {remaining}/{limit}")
-        except Exception:
-            logger.exception(f"⚠️ Не удалось проверить лимиты GitHub API")
 
     async def get_content(self, file_path: str):
         try:
@@ -37,9 +25,7 @@ class GihubWrapper:
     async def update_or_create_file(self, file_path: str, msg: str, content: str, sha: None | str = None):
         try:
             if not sha:
-                file_content = await self.get_content(file_path=file_path)
-
-                if not file_content:
+                if not (file_content := await self.get_content(file_path=file_path)):
                     logger.info(f"Файл {file_path} не найден, создание...")
                     return await self.create_file(file_path=file_path, msg=msg, content=content)
 
