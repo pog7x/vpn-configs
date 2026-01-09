@@ -1,0 +1,32 @@
+name: Frequent Update
+
+on:
+  schedule:
+    - cron: '*/9 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install dependencies
+        run: pip install --no-cache-dir -r requirements.txt
+
+      - name: Run script
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          REPO_NAME: ${{ secrets.REPO_NAME }}
+        run: |
+          python main.py
