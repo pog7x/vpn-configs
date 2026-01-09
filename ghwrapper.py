@@ -12,11 +12,7 @@ class GihubWrapper:
     def __init__(self, gh_token: str, repo_name: str):
         self._gh = Github(auth=Auth.Token(gh_token))
         self._repo_name = repo_name
-        self._repo = None
-
-    async def get_repo(self):
-        self._repo = self._repo or self._gh.get_repo(self._repo_name)
-        return self._repo
+        self._repo = self._gh.get_repo(self._repo_name)
 
     async def get_rate_limit(self):
         try:
