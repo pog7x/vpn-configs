@@ -17,7 +17,7 @@ class GihubWrapper:
             return self._repo.get_contents(file_path)
         except GithubException as e:
             if e.status == 404:
-                logger.exception(f"❌ {file_path} не найден в репозитории")
+                logger.exception(f"❌ File {file_path} not found in the repository")
             else:
                 raise
             return None
@@ -26,18 +26,18 @@ class GihubWrapper:
         try:
             if not sha:
                 if not (file_content := await self.get_content(file_path=file_path)):
-                    logger.info(f"Файл {file_path} не найден, создание...")
+                    logger.info(f"File {file_path} not found, creating...")
                     return await self.create_file(file_path=file_path, msg=msg, content=content)
 
                 sha = file_content.sha
             return self._repo.update_file(path=file_path, message=msg, content=content, sha=sha)
         except:
-            logger.exception(f"⚠️ Ошибка при обновлении {file_path}")
+            logger.exception(f"⚠️ Error during update {file_path}")
             raise
 
     async def create_file(self, file_path: str, msg: str, content: str):
         try:
             return self._repo.create_file(path=file_path, message=msg, content=content)
         except:
-            logger.exception(f"⚠️ Ошибка при создании {file_path}")
+            logger.exception(f"⚠️ Error while creating {file_path}")
             raise

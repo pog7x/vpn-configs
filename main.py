@@ -54,7 +54,7 @@ class DownloadAndSave:  # TODO to rename and remove
             else:
                 res = parsed.netloc
         except:
-            logger.exception(f"Extract source name from URL {self._url} error.")
+            logger.exception(f"Extract source name from URL {self._url} error")
 
         return res
 
@@ -70,8 +70,8 @@ class DownloadAndSave:  # TODO to rename and remove
             "Num": self._number,
             "File": f"[`{self._number}.txt`]({self._cfg_file_path})",
             "Source": f"[{self.extract_source_name()}]({self._url})",
-            "Time": now_time,
-            "Date": now_date,
+            "Update time": now_time,
+            "Update date": now_date,
         }
 
     async def is_equal_urls_config(self, new_data: str) -> bool:
@@ -91,21 +91,21 @@ class DownloadAndSave:  # TODO to rename and remove
         try:
             data = await self.fetch_data()
         except Exception:
-            logger.exception(f"FETCHING Error for number {self._number}")
+            logger.exception(f"Number {self._number} | config fetching error")
             return
 
         try:
             if not (await self.is_equal_urls_config(data)):
                 await self._ghapi.update_or_create_file(
                     self._cfg_file_path,
-                    msg=f"🚀 Обновление {self._cfg_file_path}",
+                    msg=f"🚀 Updating config file 📁 {self._cfg_file_path}",
                     content=data,
                 )
-                logger.info(f"📁 {self._number} | Данные сохранены в {self._cfg_file_path}")
+                logger.info(f"📁 {self._number} | Config saved successfully {self._cfg_file_path}")
 
                 self._info = self.get_or_create_info(info=self._info, force=True)
         except Exception:
-            logger.exception(f"WRITING Error for number {self._number}")
+            logger.exception(f"Number {self._number} | writing to file error")
 
         return self._info
 
@@ -167,7 +167,7 @@ class Main:
 
         await self._ghapi.update_or_create_file(
             file_path="README.md",
-            msg="📝 Обновление таблицы в README.md",
+            msg="📝 Updating table in README.md",
             content=markdown,
         )
 
