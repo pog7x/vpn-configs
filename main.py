@@ -92,7 +92,7 @@ class DownloadAndSave:  # TODO to rename and remove
             data = await self.fetch_data()
         except Exception:
             logger.exception(f"Number {self._number} | config fetching error")
-            return
+            return self._info
 
         try:
             if not (await self.is_equal_urls_config(data)):
