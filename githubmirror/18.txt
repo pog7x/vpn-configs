@@ -70,7 +70,7 @@ vless://0c49f1d8-3d34-473b-bebf-9d9a4811db62@45.141.234.196:51472?security=reali
 
 vless://1cf6792c-079e-44f9-a2ce-2c00feae74bf@2.144.6.9:14032?encryption=none&type=tcp&headerType=none&security=none#IR≡ƒç«≡ƒç╖
 
-vless://26524cce-d514-4014-a426-365fb266a14d@52.19.138.237:8443?security=tls&sni=bt5hpm5jf6.chinam.eu.org&type=ws&host=bt5hpm5jf6.chinam.eu.org&path=/danfeng?ed=2560&fp=random#IE≡ƒç«≡ƒç¬
+vless://26524cce-d514-4014-a426-365fb266a14d@52.19.138.237:8443?security=tls&sni=bt5hpm5jf6.chinam.eu.org&type=ws&host=bt5hpm5jf6.chinam.eu.org&path=/danfeng?ed=2560&fp=random#INT≡ƒîì
 
 vless://423c14e1-9879-4335-b371-e582ce0dbc14@185.97.119.239:8080?security=none&encryption=none&headerType=none&type=tcp#IR≡ƒç«≡ƒç╖
 
@@ -84,7 +84,7 @@ vless://4a098f1e-c449-4061-8b95-70ae594d3458@46.8.113.237:8443?flow=xtls-rprx-vi
 
 vless://8c27381c-3124-0008-bfa3-76d1a00265c8@37.139.32.50:8443?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&sni=ads.x5.ru&pbk=10rVZPoOUP1TlQviIAsQ_jAROX0fRQxH0C92nq_zGQc&sid=43dcff53849b81e6#INT≡ƒîì
 
-vless://907b21dc-1beb-4e27-8c0f-f711b8fb223f@6t8q56c58d.0g97vcf0bhjg6sa4n1xx.realytag.com:882?security=none&encryption=none&host=skyroom.online,gharar.ir,igap.net&headerType=http&type=tcp#INT≡ƒîì
+vless://907b21dc-1beb-4e27-8c0f-f711b8fb223f@6t8q56c58d.0g97vcf0bhjg6sa4n1xx.realytag.com:882?security=none&encryption=none&host=skyroom.online,gharar.ir,igap.net&headerType=http&type=tcp#IR≡ƒç«≡ƒç╖
 
 vless://f65d8f52-da18-404a-bc6b-55aee5736207@emergency2.layer-ziro.ir:2002?security=none&type=tcp&headerType=http&path=/&host=anten.ir#INT≡ƒîì
 
