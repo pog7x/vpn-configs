@@ -13,6 +13,7 @@ import aiohttp
 from py_markdown_table.markdown_table import markdown_table
 
 from ghwrapper import GihubWrapper
+from readme_template import README_TEMPLATE
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -127,8 +128,10 @@ class DownloadAndSave:  # TODO to rename and remove
 class Main:
     MARKDOWN_LIST = []
 
-    def __init__(self):
-        self._ghapi = GihubWrapper(gh_token=GH_TOKEN, repo_name=REPO_NAME)
+    def __init__(self, gh_token: str, repo_name: str):
+        self._gh_token = gh_token
+        self._repo_name = repo_name
+        self._ghapi = GihubWrapper(gh_token=self._gh_token, repo_name=self._repo_name)
 
     async def run_download(self, url: str, _id: int, info: None | dict, urls_dict: dict):
         new_info = await DownloadAndSave(url=url, number=_id + 1, info=info, ghapi=self._ghapi).download_and_save()
@@ -163,12 +166,19 @@ class Main:
 
         await self.gather_coros(urls, urls_dict)
 
-        markdown = markdown_table(self.MARKDOWN_LIST).set_params(row_sep="markdown", quote=False).get_markdown()
+        configs_table = markdown_table(self.MARKDOWN_LIST).set_params(row_sep="markdown", quote=False).get_markdown()
+
+        repo = self._repo_name or ""
+        readme_content = README_TEMPLATE.format(
+            configs_table=configs_table,
+            repo=repo,
+            repo_name=repo.split("/")[-1] if "/" in repo else repo,
+        )
 
         await self._ghapi.update_or_create_file(
             file_path="README.md",
             msg="📝 Updating table in README.md",
-            content=markdown,
+            content=readme_content,
         )
 
         await self._ghapi.update_or_create_file(
